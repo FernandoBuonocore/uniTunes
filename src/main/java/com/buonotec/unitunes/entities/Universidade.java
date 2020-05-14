@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
@@ -17,14 +19,24 @@ public class Universidade implements Serializable{
 
 	
 	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	private Integer totalAlunos;
 	
 	@JsonBackReference
 	@OneToMany(mappedBy = "universidade")
-	private List<Usuario> usuario = new ArrayList<>();
+	private List<Usuario> usuarios = new ArrayList<>();
 	
+	public Universidade() {
+	}
+	
+	public Universidade(Integer id, String nome, Integer totalAlunos) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.totalAlunos = totalAlunos;
+	}
 	public Integer getId() {
 		return id;
 	}
@@ -42,5 +54,11 @@ public class Universidade implements Serializable{
 	}
 	public void setTotalAlunos(Integer totalAlunos) {
 		this.totalAlunos = totalAlunos;
+	}
+	public List<Usuario> getUsuarios() {
+		return usuarios;
+	}
+	public void setUsuarios(List<Usuario> usuarios) {
+		this.usuarios = usuarios;
 	}
 }
