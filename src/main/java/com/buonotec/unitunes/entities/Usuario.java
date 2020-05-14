@@ -38,7 +38,26 @@ public class Usuario implements Serializable{
 	@JsonManagedReference
 	@OneToMany(mappedBy = "usuarioCriador")
 	private List<Midia> midiasCriadas = new ArrayList<>();
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "usuarioTransacao")
+	private List<Transacao> transacoes = new ArrayList<Transacao>();
 
+
+	public Usuario() {
+	}
+	public Usuario(Integer id, String nome, String senha, double saldo, String email, UsuarioTipo usuarioTipo,
+			Universidade universidade) {
+		super();
+		this.id = id;
+		this.nome = nome;
+		this.senha = senha;
+		this.saldo = saldo;
+		this.email = email;
+		this.usuarioTipo = usuarioTipo.getId();
+		this.universidade = universidade;
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -95,18 +114,24 @@ public class Usuario implements Serializable{
 		this.universidade = universidade;
 	}
 
-	public Usuario() {
+	public List<Midia> getMidiasCriadas() {
+		return midiasCriadas;
 	}
-	public Usuario(Integer id, String nome, String senha, double saldo, String email, UsuarioTipo usuarioTipo,
-			Universidade universidade) {
-		super();
-		this.id = id;
-		this.nome = nome;
-		this.senha = senha;
-		this.saldo = saldo;
-		this.email = email;
-		this.usuarioTipo = usuarioTipo.getId();
-		this.universidade = universidade;
+
+	public void setMidiasCriadas(List<Midia> midiasCriadas) {
+		this.midiasCriadas = midiasCriadas;
 	}
-	
+
+	public List<Transacao> getTransacoes() {
+		return transacoes;
+	}
+
+	public void setTransacoes(List<Transacao> transacoes) {
+		this.transacoes = transacoes;
+	}
+
+	public void setUsuarioTipo(Integer usuarioTipo) {
+		this.usuarioTipo = usuarioTipo;
+	}
+
 }
