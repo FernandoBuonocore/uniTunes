@@ -1,17 +1,22 @@
 package com.buonotec.unitunes.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.buonotec.unitunes.enumerations.TransacaoTipo;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Transacao implements Serializable{
@@ -29,24 +34,28 @@ public class Transacao implements Serializable{
 	
 	private Date dataTransacao;
 	
-	private double valor;
-	
 	private Integer transacaoTipo;
 	
 	//nao vou colocar relacionamento para a Midia, porque ela pode ser apagada, dai teria que fazer muito tratamento
 	//por isso somente a descrição
 	private String descricaoTransacao;
 
+	@JsonManagedReference
+	@ManyToMany
+	@JoinTable(name="TRANSACAO_MIDIA", 
+		joinColumns = @JoinColumn(name="transacao_id")
+			, inverseJoinColumns = @JoinColumn(name="midia_id"))
+	private List<Midia> midiasDownload = new ArrayList<Midia>();;
+	
 	public Transacao() {
 	}
 	
-	public Transacao(Integer id, Usuario usuarioTransacao, Date dataTransacao, double valor,
+	public Transacao(Integer id, Usuario usuarioTransacao, Date dataTransacao,
 			TransacaoTipo transacaoTipo, String descricaoTransacao) {
 		super();
 		this.id = id;
 		this.usuarioTransacao = usuarioTransacao;
 		this.dataTransacao = dataTransacao;
-		this.valor = valor;
 		this.transacaoTipo = transacaoTipo.getId();
 		this.descricaoTransacao = descricaoTransacao;
 	}
@@ -76,11 +85,12 @@ public class Transacao implements Serializable{
 	}
 
 	public double getValor() {
+		double valor = 0;
+		
+		for(Midia mid : midiasDownload) {
+			valor = valor + mid.getPreco();
+		}
 		return valor;
-	}
-
-	public void setValor(double valor) {
-		this.valor = valor;
 	}
 
 	public TransacaoTipo getTransacaoTipo() {
@@ -97,6 +107,14 @@ public class Transacao implements Serializable{
 
 	public void setDescricaoTransacao(String descricaoTransacao) {
 		this.descricaoTransacao = descricaoTransacao;
+	}
+
+	public List<Midia> getMidiasDownload() {
+		return midiasDownload;
+	}
+
+	public void setMidiasDownload(List<Midia> midiasDownload) {
+		this.midiasDownload = midiasDownload;
 	}
 	
 }

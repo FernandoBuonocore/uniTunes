@@ -1,5 +1,6 @@
 package com.buonotec.unitunes.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,14 @@ import com.buonotec.unitunes.services.exceptions.ObjectNotFoundException;
 public class TransacaoService {
 
 	@Autowired
-	private TransacaoRepository usuarioDao;
+	private TransacaoRepository transacaoDao;
 	
 	public Transacao buscarTransacao(Integer id) {
-		Optional<Transacao> opt = usuarioDao.findById(id);
+		Optional<Transacao> opt = transacaoDao.findById(id);
 			return opt.orElseThrow(() -> new ObjectNotFoundException("Objeto nao encontrado!"));
 	}
 	
+	public List<Transacao> findAll() {
+		return transacaoDao.findAll();
+	}
 }

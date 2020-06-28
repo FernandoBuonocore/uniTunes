@@ -1,17 +1,22 @@
 package com.buonotec.unitunes.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 import com.buonotec.unitunes.enumerations.MidiaTipo;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 public class Midia implements Serializable{
@@ -23,10 +28,10 @@ public class Midia implements Serializable{
 	private Integer id;
 	private String nome;
 	private String descricao;
-	private byte imagem;
+	private Byte imagem;
 	private double preco;
 	private boolean livre;
-	private byte conteudo;
+	private Byte conteudo;
 	private Date data;
 	
 	private Integer tipo;
@@ -36,9 +41,14 @@ public class Midia implements Serializable{
 	@JoinColumn(name="usuario_id")
 	private Usuario usuarioCriador;
 	
+	
+	@JsonBackReference
+	@ManyToMany(mappedBy = "midiasDownload")
+	private List<Transacao> midiasDown = new ArrayList<Transacao>();
+	
 	public Midia() {
 	}
-	public Midia(Integer id, String nome, String descricao, byte imagem, double preco, boolean livre, byte conteudo,
+	public Midia(Integer id, String nome, String descricao, Byte imagem, double preco, boolean livre, Byte conteudo,
 			Date data, MidiaTipo tipo, Usuario usuarioCriador) {
 		super();
 		this.id = id;
@@ -70,10 +80,10 @@ public class Midia implements Serializable{
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public byte getImagem() {
+	public Byte getImagem() {
 		return imagem;
 	}
-	public void setImagem(byte imagem) {
+	public void setImagem(Byte imagem) {
 		this.imagem = imagem;
 	}
 	public double getPreco() {
@@ -88,10 +98,10 @@ public class Midia implements Serializable{
 	public void setLivre(boolean livre) {
 		this.livre = livre;
 	}
-	public byte getConteudo() {
+	public Byte getConteudo() {
 		return conteudo;
 	}
-	public void setConteudo(byte conteudo) {
+	public void setConteudo(Byte conteudo) {
 		this.conteudo = conteudo;
 	}
 	public Date getData() {
