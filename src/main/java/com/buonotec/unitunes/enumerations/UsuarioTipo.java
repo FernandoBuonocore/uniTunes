@@ -2,8 +2,8 @@ package com.buonotec.unitunes.enumerations;
 
 public enum UsuarioTipo {
 
-	ACADEMICO (1, "Academico"),
-	ADMINISTRADOR(2, "Admin");
+	ACADEMICO (1, "ROLE_ACADEMICO"),
+	ADMINISTRADOR(2, "ROLE_ADMIN");
 
 	private int id;
 	private String descricao;
