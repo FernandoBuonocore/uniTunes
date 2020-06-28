@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 
 import com.buonotec.unitunes.enumerations.UsuarioTipo;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
@@ -25,7 +26,10 @@ public class Usuario implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	
+	@JsonIgnore
 	private String senha;
+	
 	private double saldo;
 	private String email;
 	private Integer usuarioTipo;

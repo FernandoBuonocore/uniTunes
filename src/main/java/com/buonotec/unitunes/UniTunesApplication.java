@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import com.buonotec.unitunes.entities.Midia;
 import com.buonotec.unitunes.entities.Transacao;
@@ -39,11 +40,14 @@ public class UniTunesApplication implements CommandLineRunner{
 	@Autowired
 	private MidiaRepository midiaRepository;
 	
+	@Autowired
+	private BCryptPasswordEncoder bt;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		Universidade uni1 = new Universidade(null, "Unisinos", 5000);
 		
-		Usuario user1 = new Usuario(null, "Buonocore", "123", 1000.00, "buonocore@buonotec.com", UsuarioTipo.ADMINISTRADOR, uni1);
+		Usuario user1 = new Usuario(null, "Buonocore", bt.encode("123"), 1000.00, "buonocore@buonotec.com", UsuarioTipo.ADMINISTRADOR, uni1);
 		uni1.getUsuarios().add(user1);
 		
 		Transacao tran1 = new Transacao(null, user1, new Date(), TransacaoTipo.BOLETO, "Compra produto Livro");
